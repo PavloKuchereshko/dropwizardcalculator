@@ -1,0 +1,12 @@
+addTemplate: Result of addition is %d!
+multiplyTemplate: Result of multiplication is %d!
+defaultAnswer: You haven't provided any values!
+
+server:
+  applicationConnectors:
+  - type: http
+    port: 8085
+
+  adminConnectors:
+  - type: http
+    port: 8086
