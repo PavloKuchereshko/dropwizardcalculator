@@ -1,6 +1,7 @@
 package com.pkuch.resourses;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.inject.Inject;
 import com.pkuch.core.Result;
 import com.pkuch.service.CalculatorService;
 
@@ -18,12 +19,13 @@ public class AddResource {
     private final String sumTemplate;
     private final String defaultAnswer;
     private final AtomicLong counter;
-    private final CalculatorService calculatorService;
 
-    public AddResource(String sumTemplate, String defaultAnswer, CalculatorService calculatorService) {
+    @Inject
+    private CalculatorService calculatorService;
+
+    public AddResource(String sumTemplate, String defaultAnswer) {
         this.sumTemplate = sumTemplate;
         this.defaultAnswer = defaultAnswer;
-        this.calculatorService = calculatorService;
         this.counter = new AtomicLong();
     }
 

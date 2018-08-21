@@ -1,6 +1,7 @@
 package com.pkuch.resourses;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.inject.Inject;
 import com.pkuch.core.Result;
 import com.pkuch.service.CalculatorService;
 
@@ -18,18 +19,19 @@ public class MultiplyResource {
     private final String sumTemplate;
     private final String defaultAnswer;
     private final AtomicLong counter;
-    private final CalculatorService calculatorService;
 
-    public MultiplyResource(String sumTemplate, String defaultAnswer, CalculatorService calculatorService) {
+    @Inject
+    private CalculatorService calculatorService;
+
+    public MultiplyResource(String sumTemplate, String defaultAnswer) {
         this.sumTemplate = sumTemplate;
         this.defaultAnswer = defaultAnswer;
-        this.calculatorService = calculatorService;
         this.counter = new AtomicLong();
     }
 
     @GET
     @Timed
-    public Result calculateSum(@QueryParam ("val") List<Integer> values) {
+    public Result calculateMultiply(@QueryParam ("val") List<Integer> values) {
         Integer result = calculatorService.multiply(values);
         final String value = result != 0 ? String.format(sumTemplate, result) : defaultAnswer;
         return new Result(counter.incrementAndGet(), value);

@@ -30,15 +30,16 @@ public class DropwizardTestApp extends Application<AppConfiguration> {
         Injector injector = Guice.createInjector(new CalculatorModule());
         final AddResource addResource = new AddResource(
                 appConfiguration.getAddTemplate(),
-                appConfiguration.getDefaultAnswer(),
-                injector.getInstance(CalculatorService.class)
+                appConfiguration.getDefaultAnswer()
         );
         final MultiplyResource multiplyResource = new MultiplyResource(
                 appConfiguration.getMultiplyTemplate(),
-                appConfiguration.getDefaultAnswer(),
-                injector.getInstance(CalculatorService.class)
+                appConfiguration.getDefaultAnswer()
         );
         final TemplateHealthCheck healthCheck = new TemplateHealthCheck(appConfiguration.getAddTemplate());
+
+        injector.injectMembers(addResource);
+        injector.injectMembers(multiplyResource);
         environment.jersey().register(addResource);
         environment.jersey().register(multiplyResource);
         environment.healthChecks().register("template", healthCheck);
